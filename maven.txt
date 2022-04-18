@@ -1,0 +1,166 @@
+what is maven 
+its a project management tool 
+1.compile 
+2.Run Test
+3.Packing jar/ Packing war
+4.Deploy to Server
+
+maven use convention over configuration
+
+project structure 
+
+myproject (base project)
+    |
+    |-src/main/java  (source code)
+    |-src/main/resource (properties file , xml configuration)
+    |-src/test/java (unit and integration file)
+    |-src/test/resource (properties file , xml configuration used for testing)
+
+
+mvn install
+compile    will compile the source code present in  src/main/java
+run        will run Test cases present in src/test/java
+package    if they test pass it will bundle into jar(if it is a standalone application) or war(if it is a web application)
+deploy 
+
+
+folder structure can change as per the project nature 
+these folder structure are auto created by maven based on the archetype we select 
+                    _____ standalone alone
+                    |
+                    |
+Archetype types --------- web application
+                    |
+                    |____ EAR
+
+why maven
+
+    common interface
+    before maven when working with different project each developer need to understand building
+    tools and practices followed by each in each different project which is time consuming but using
+    maven we can easily run any project using maven install comand alone 
+
+    its not only build tool also dependency manager will add other jar files to this project which is required
+    supports both open source dependency and private dependency
+
+
+Reuse
+    Plugin Model is used by Maven which helps in reuse 
+    it wont download again and again it will reuse the jar across the projects
+
+
+mvn archetype:generate -DgroupId=com.hdmdmi -DartifactId=hellomaven -DarchetypeArtifactId
+tId=maven-archetype-quickstart -DinteractiveMode=false
+
+mvn                     -- maven command
+archetype:generate      -- maven goal
+-DartifactId            -- project name
+-DarchetypeArtifactId   -- templet which needs to be followed(maven-archetype-quickstart is a java standalone project templete)
+-DinteractiveMode       -- if it is true means we need to type DartifactId,DarchetypeArtifactId,DgroupId in
+                           interactive way if it is false we can pass that in parameter
+
+pom.xml
+
+-------------------------------------------|
+groupId     -company domain(com.hdmdmi)    |
+artifactId  -project name(hellomaven)      |  This are called maven project coordinates
+packaging   -jar/war/ear                   |
+version     -version of the project(1.x)   |
+--------------------------------------------
+name        -user friendly name
+url         -company website/person who own this project website
+dependencies-is where we add required dependency to project
+
+
+if we get any error while build the maven project like target option 5 is no
+longer supported specify this in pom.xml
+
+<properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+</properties>
+
+
+
+Two key concepts of maven 
+    1.Maven Plugin
+    2.Maven Goals
+
+maven Plugin is a collection of one or more goal
+
+eg:-
+    archetype:generate
+archetype is a Plugin and generate is a goal from that Plugin
+    install:install
+install is a Plugin and install is a goal from that Plugin
+
+
+goal can be a be a specify task it is usally run independently or can be a part of a complex build
+
+
+goal can take parameter they will also have default parameter
+for example
+
+pluginId:goalId
+
+mvn archetype:generate -DgroupId=com.hdmdmi -DartifactId=hellomaven -DarchetypeArtifactId
+tId=maven-archetype-quickstart -DinteractiveMode=false
+
+mvn                     -- maven command
+
+list of parameter
+archetype:generate      -- maven goal
+-DartifactId            -- project name
+-DarchetypeArtifactId   -- templet which needs to be followed(maven-archetype-quickstart is a java standalone project templete)
+-DinteractiveMode       -- if it is true means we need to type DartifactId,DarchetypeArtifactId,DgroupId in
+                           interactive way if it is false we can pass that in parameter
+
+by default maven doesnt know how to compile build pack project it uses the 
+plugin to perform the action
+
+every default maven project get these set of plugin from the parent but we can overwrite by defining in our pom.xml
+
+
+Maven Phases and Goals
+
+mvn install will run 
+    -process-resource
+        -compile
+            -test
+                -package
+
+we no need to run these steps one by one for example if i run mvn test this will make sure the
+phase present above that is runned before this
+
+mvn test will run
+        -process-resource
+            -compile
+                -test
+
+
+each phase is associate with one or more goal
+
+we can also give goal with mvn 
+for example mvn surefire:test which is present in test phase 
+this will run all the phase present above this goal phase
+
+
+the maven coordinates will use groupId,artifactId,packaging,version
+To locate the project in maven repository groupId:artifactId:packaging:version
+
+
+maven will download the dependencies from the central library https://repo.maven.apache.org/maven2/
+
+
+we can also create an enterprise repository which will have both open source 
+and orginisation specify jar
+
+so that teams present in the company can use this enterprise repository
+
+
+maven will also create local repository so that it wont download every time 
+for mac /Users/ajaylee/.m2/repository/log4j/log4j/1.2.12
+
+maven will also include our project in local repository 
+hellomaven is the project which we create
+/Users/ajaylee/.m2/repository/com/hdmdmi/hellomaven/1.0-SNAPSHOT
