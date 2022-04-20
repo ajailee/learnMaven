@@ -164,3 +164,89 @@ for mac /Users/ajaylee/.m2/repository/log4j/log4j/1.2.12
 maven will also include our project in local repository 
 hellomaven is the project which we create
 /Users/ajaylee/.m2/repository/com/hdmdmi/hellomaven/1.0-SNAPSHOT
+
+
+
+=======================================Day 2==============================
+
+product web application 
+    -- create product
+    -- display product 
+
+this project  consist of 
+1.web layer
+2.business layer
+3.dao layer (data access layer)
+
+tool going to be added 
+servelets 
+pojo(plain old java object)
+spring 
+
+
+we can implement this project as a standalone java project
+
+we can create business logic layer 
+            productBO
+            productBOImpl
+data access layer
+            productDAO
+            productDAOImpl
+                -create
+                -read
+                -update
+                -delete
+
+
+unit test
+
+create productweb  -- war package
+
+1.createProductServlet
+2.displayProductServlet
+
+
+
+we can create business logic layer 
+            productBO
+            productBOImpl
+data access layer
+            productDAO
+            productDAOImpl
+
+
+add the productservice project as an dependencies to productweb application
+
+
+
+
+
+to change the java compiler version add configuration properties inside the maven compile plugin
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.8.0</version>
+          <configuration>
+            <source>1.8</source>
+            <target>1.8</target>
+          </configuration>
+        </plugin>
+
+
+
+We should add the Test inside the productservices/src/test/java/com/hdmdmi/ 
+as per the package structure present in the main
+
+
+starting from junit 4 it is easy to write test case just add @Test annotation before the method
+
+import the following package
+
+import org.junit.Test;
+
+import static org.junit.Assert.*;
+
+write the test cases
+
+
+if we want to skip the test use this command 
+mvn install -DskipTests
