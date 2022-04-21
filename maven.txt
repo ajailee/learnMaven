@@ -250,3 +250,189 @@ write the test cases
 
 if we want to skip the test use this command 
 mvn install -DskipTests
+
+
+
+
+
+================================================Day 3===============================================
+
+
+Maven scope 
+
+There are 6 scope present in maven 
+
+1. Compile 
+2. Runtime 
+3. Provided 
+4. Test
+5. System 
+6. Import
+
+
+
+Compile will be available during build , test ,run this is the default scope 
+Provided are required only during  run and  test but they no need to be a deployed example servlet api is required during building web application but deploying war doesn't required because tomcat already have that
+Runtime only during running the test and running the application not required during compiling 
+Test only required for compile test and running the test (JUnit)
+System scope rarely used when we want to add a dependency which is not in maven repository we need to specify the path inside the system scope 
+Import This are used in pom based projects not in jar and war 
+
+
+
+In a big organisation they will be different project with same dependency but sometimes with different versions which can cause problem to avoid this we can use the parent .pom 
+
+
+Add dependencyManagement tag inside the project tag and add the dependency with required version in that parent .pom so that all the child and parent will always use this version and we no need to use the version tag in child projects
+
+
+.pom (Parent)
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.12</version>
+				<scope>test</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+
+.pom (Child)
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+
+
+Even if we add dependency Management in parent pom we need to add the dependency in the child project only version we are not supposed to add rest of the things are added as before 
+
+If we specify the version in child .pom then this version is override 
+
+
+
+
+
+
+Plugin Management this is similar dependency Management tag this will allow us to use the same plugin version and the same configuration across the child project and parent project
+
+Add a build tag place the plugin management inside the build tag and the plugins tag inside the plugin management tag and add the plugin with the required version and configuration here I have added java 1.8 as the require source and target versions as a configuration for the compiler plugin version 3.8.0 this same configuration will be used for the parent and child projects with the same version 
+
+Parent .pom
+
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.8.0</version>
+					<configuration>
+						<source>1.8</source>
+						<target>1.8</target>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+
+
+
+
+
+
+Build Portability achieved using Profiles 
+
+Create a source folder(folder which is added to the class path is called source folder) named profiles then add 3 sub folder dev , test , prod 
+
+Create an application.properites file in each sub folder with respective values example db.url=devurl in dev/application.properties file and db.url=produrl in prod/application.properties file
+
+
+
+After creating all the files go back to .pom file 
+
+
+Add profiles tag inside profiles tag add profile tag 
+
+
+
+Profile tag has a property id which is unique and used in mvn command to activate the profile eg <id>dev</id> , <id>prod</id> , <id>test</id>
+
+
+ 
+Now add the <properties> tag inside that add <build.profile.id>dev</build.profile.id> here the dev is the folder name if there is a different folder name is there change it as per the folder name 
+
+Now add a build tag in the profile tag and add resources tag and add resource tag inside that tag now add directory tag inside resource and provide the path of the folder
+
+
+
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<build.profile.id>dev</build.profile.id>
+			</properties>
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/profiles/dev</directory>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+
+		<profile>
+			<id>test</id>
+			<properties>
+				<build.profile.id>test</build.profile.id>
+			</properties>
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/profiles/test</directory>
+					</resource>
+
+				</resources>
+
+			</build>
+		</profile>
+
+
+		<profile>
+			<id>prod</id>
+			<properties>
+				<build.profile.id>prod</build.profile.id>
+			</properties>
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/profiles/prod</directory>
+					</resource>
+
+				</resources>
+
+			</build>
+		</profile>
+
+
+	</profiles>
+
+
+
+
+To activate the profile we can use the common mvn install -Pdev, mvn install -Ptest , mvn install -Pprod
+
+
+In eclipse right click the project select properties search maven in profile give the profile value   
+
+
+
+
+ 
