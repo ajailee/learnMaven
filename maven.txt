@@ -435,4 +435,109 @@ In eclipse right click the project select properties search maven in profile giv
 
 
 
+
+=======================================================day 4===============================================
+
+Try to add jococo plugin to java project 
+
+
+		<plugins>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.4</version>
+				<executions>
+					<execution>
+						<id>default-prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>jacoco-report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+
+
+
+Place the plugin outside the plugin management tag or else it won't work and generate the report 
+It should be the direct child of the build plugin 
+
+
+Test report results are generate at target/site/jococo
+
+
+
+
+
+Sonar setup 
+
+
+To setup sonar add settings.xml in .m2 folder 
+<settings>
+    <pluginGroups>
+        <pluginGroup>org.sonarsource.scanner.maven</pluginGroup>
+    </pluginGroups>
+    <profile>
+        <id>sonar</id>
+        <activation>
+            <activeByDefault>true</activeByDefault>
+        </activation>
+    </profile>
+</settings>
+
+
+Install sonar from website start the sonarqube 
+Go to dashboard -> profile -> account ->security -> generate token 
+Go to profile generate token 748e4392b6557496ad7b307e17ded1602fd5c31d
+
+
+Then run the sonar by using  mvn clean verify sonar:sonar -Dsonar.login=token  
+
+
+In Traditional Spring Project we used 
+
+Spring core for dependency injection
+Spring mvc for web layer 
+Spring jdbc for dao layer
+Spring data jpa for orm tools like hibernate
+
+
+To use these modules xml or annotations for configuration
+
+Spring boot features 
+Auto configuration
+ Eg when your working with spring mvc we no need to manage the dispatcher servlet or url mapping 
+Or while working with spring orm we no need to manage the data source or transaction manager 
+
+
+Spring boot Starters
+
+Check the module availability and version compatible and it is persent in the spring-boot-starter-parent 
+
+
+If we are doing web project we just need to mention spring-boot-starter-web
+
+
+When we need to work with hibernate we can use spring-boot-starter-data-jpa
+
+
+
+Comes with Embedded Servlet container by default its Tomcat    
+
+Spring Boot actuators free health check by default (autoconfig endpoints report , mapping reports info, health and metrics of the application)
+
+
+
+ 
+
+
+
+
  
