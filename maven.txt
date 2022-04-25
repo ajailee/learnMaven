@@ -535,6 +535,30 @@ Spring Boot actuators free health check by default (autoconfig endpoints report 
 
 
 
+==================================================day 5==================================================
+
+
+
+nexus is used as an repository in orginisatione 
+ this nexus can be used by devops engineer or adminstrator the restict what dependencies should be used inside the organisation and 
+ the jar/war files which is built withint the company can be stored here safely without pushing it to the central repository
+
+
+ this act as an local mirror library 
+
+ to use this we need to  setup settings.xml along with the username and password for each type of the repository ( SNAPSHOT,release)
+
+ maven grp is a repository which consist of other repository together into a single repo people will use this repo in project and settings.xml
+
+
+ maven central (proxy) -> will get the dependencies from maven central for the first time after it will uses the cached one 
+ maven-release -> when you build a maven project which has no SNAPSHOT in its version then it will be stored here 
+ maven-SNAPSHOT -> when you build a maven project which has SNAPSHOT in its version then it will be stored here 
+
+
+ maven group - > this will have multipe repository which you add together into a single endpoint url which is used in project and settings.xml
+
+
  
 
 
